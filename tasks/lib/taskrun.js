@@ -47,6 +47,10 @@ module.exports = function(grunt) {
     // Dont run if already running
     if (self.startedAt !== false) { return; }
 
+    var onStart = grunt.config(['watch', this.name, 'options', 'onStart']);
+    if (typeof onStart === 'function'){
+      onStart();
+    }
     // Start this task run
     self.startedAt = Date.now();
 
@@ -92,6 +96,12 @@ module.exports = function(grunt) {
   TaskRun.prototype.complete = function() {
     var time = Date.now() - this.startedAt;
     this.startedAt = false;
+
+    var onEnd = grunt.config(['watch', this.name, 'options', 'onEnd']);
+    if (typeof onEnd === 'function'){
+      onEnd();
+    }
+
     if (this.spawned) {
       this.spawned.kill('SIGINT');
       this.spawned = null;

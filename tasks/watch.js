@@ -163,6 +163,7 @@ module.exports = function(grunt) {
 
           // Run the tasks
           taskrun.run();
+
         });
 
         // On watcher error
